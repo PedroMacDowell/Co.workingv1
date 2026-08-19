@@ -78,18 +78,27 @@ export const benefits = [
 export const plans = [
   {
     title: 'Uso pontual',
+    price: 'Sob consulta',
+    period: 'por hora, turno ou diária',
     text: 'Para reuniões, atendimentos e dias específicos de trabalho presencial.',
+    items: ['Sala conforme disponibilidade', 'Internet e ambiente climatizado', 'Ideal para uso eventual'],
     cta: 'Consultar disponibilidade',
   },
   {
     title: 'Mensal privativo',
+    price: 'Proposta personalizada',
+    period: 'plano mensal',
     text: 'Sala reservada para quem quer previsibilidade, foco e presença profissional todos os dias.',
+    items: ['Sala fixa ou recorrente', 'Estrutura pronta para operar', 'Melhor opção para rotina constante'],
     cta: 'Pedir proposta',
     highlight: true,
   },
   {
     title: 'Empresa flex',
+    price: 'Plano sob medida',
+    period: 'conforme uso da equipe',
     text: 'Para equipes que alternam entre trabalho remoto, reuniões presenciais e base comercial.',
+    items: ['Uso híbrido das salas', 'Base comercial profissional', 'Formato ajustado por frequência'],
     cta: 'Montar plano',
   },
 ];

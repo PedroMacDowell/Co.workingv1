@@ -201,9 +201,9 @@ function Plans() {
   return (
     <section className="plans section" id="planos" aria-labelledby="plans-title">
       <SectionHeading
-        kicker="Planos"
-        title="Escolha pelo uso, não pela burocracia."
-        text="Os formatos abaixo servem como ponto de partida. A proposta final é ajustada conforme rotina, frequência e necessidade."
+        kicker="Planos e preços"
+        title="Escolha o formato ideal para sua rotina."
+        text="Os valores são montados conforme tipo de sala, frequência de uso e necessidade da empresa. A proposta vem objetiva, sem pacote engessado."
         titleId="plans-title"
       />
 
@@ -214,10 +214,27 @@ function Plans() {
             key={plan.title}
           >
             <h3>{plan.title}</h3>
+            <div className="plan-price">
+              <strong>{plan.price}</strong>
+              <span>{plan.period}</span>
+            </div>
             <p>{plan.text}</p>
+            <ul className="plan-features">
+              {plan.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
             <a href="#contato">{plan.cta}</a>
           </article>
         ))}
+      </div>
+
+      <div className="pricing-note">
+        <strong>Precisa de um valor fechado?</strong>
+        <span>
+          Envie sua rotina de uso e retornamos com uma proposta para sala privativa,
+          reunião, endereço comercial ou combinação de serviços.
+        </span>
       </div>
     </section>
   );
