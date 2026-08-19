@@ -1,5 +1,3 @@
-'use client';
-
 import { FormEvent, useState } from 'react';
 
 const WHATSAPP_NUMBER = '5521999999999';

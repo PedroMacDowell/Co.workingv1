@@ -34,7 +34,7 @@ const services = [
   },
 ];
 
-export default function Home() {
+export default function App() {
   return (
     <>
       <header className="site-header" id="topo">
