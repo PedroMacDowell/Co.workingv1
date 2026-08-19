@@ -490,9 +490,9 @@ h3 {
 }
 
 .companies {
-  background: #e9eef3;
-  border-top: 1px solid #d1d8de;
-  border-bottom: 1px solid #d1d8de;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .companies-inner {
@@ -512,7 +512,7 @@ h3 {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d9c8bd;
+  background: rgba(243, 154, 33, 0.26);
 }
 
 .carousel-dots .active {
@@ -521,13 +521,13 @@ h3 {
 
 .companies-panel {
   padding: 46px 22px 58px;
-  border-top: 1px solid #cfd8df;
-  border-bottom: 1px solid #cfd8df;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .companies-kicker {
   margin: 0 0 42px;
-  color: #f05a3c;
+  color: var(--orange-strong);
   font-size: 1.08rem;
   font-weight: 900;
   text-transform: uppercase;
