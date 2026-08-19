@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">4U Coworking</title>
+  <desc id="desc">Logo laranja e preta com o texto 4U coworking.</desc>
+  <rect width="160" height="160" fill="#f39a21"/>
+  <rect y="116" width="160" height="44" fill="#050505"/>
+  <path d="M17 78 70 17v61h13v24H70v25H44v-25H17Zm29 0h20V52Z" fill="#050505"/>
+  <path d="M92 18h25v69c0 12 5 18 16 18s16-6 16-18V18h25v71c0 14-4 25-12 33s-18 12-30 12-22-4-30-12-11-19-11-33Z" fill="#050505" transform="translate(-12 0)"/>
+  <text x="80" y="145" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#f39a21">coworking</text>
+</svg>

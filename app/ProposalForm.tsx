@@ -1,0 +1,96 @@
+'use client';
+
+import { FormEvent, useState } from 'react';
+
+const WHATSAPP_NUMBER = '5521999999999';
+
+export default function ProposalForm() {
+  const [status, setStatus] = useState('');
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const nome = String(data.get('nome') ?? '').trim();
+    const whatsapp = String(data.get('whatsapp') ?? '').trim();
+    const servico = String(data.get('servico') ?? '');
+    const mensagem =
+      String(data.get('mensagem') ?? '').trim() ||
+      'Gostaria de receber uma proposta.';
+
+    const text = [
+      'Ola, vim pelo site da 4U Coworking.',
+      `Meu nome e ${nome}.`,
+      `Meu WhatsApp e ${whatsapp}.`,
+      `Tenho interesse em: ${servico}.`,
+      `Mensagem: ${mensagem}`,
+    ].join('\n');
+
+    window.open(
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
+      '_blank',
+      'noopener,noreferrer',
+    );
+
+    setStatus('Abrimos o WhatsApp com sua mensagem pronta.');
+    form.reset();
+  }
+
+  return (
+    <form className="contact-form" id="proposal-form" onSubmit={handleSubmit}>
+      <label>
+        Nome
+        <input name="nome" type="text" autoComplete="name" placeholder="Seu nome" required />
+      </label>
+
+      <label>
+        WhatsApp
+        <input
+          name="whatsapp"
+          type="tel"
+          autoComplete="tel"
+          placeholder="(00) 00000-0000"
+          required
+        />
+      </label>
+
+      <label>
+        Servico de interesse
+        <select name="servico" required defaultValue="">
+          <option value="">Selecione</option>
+          <option>Salas privativas</option>
+          <option>Sala de reuniao</option>
+          <option>Estacao de trabalho</option>
+          <option>Endereco comercial</option>
+          <option>Plano personalizado</option>
+        </select>
+      </label>
+
+      <label>
+        Mensagem
+        <textarea
+          name="mensagem"
+          rows={4}
+          placeholder="Ex.: preciso de uma sala mensal para 2 pessoas."
+        />
+      </label>
+
+      <button className="button button-primary form-button" type="submit">
+        <span>Enviar pelo WhatsApp</span>
+        <ArrowIcon />
+      </button>
+      <p className="form-status" aria-live="polite">
+        {status}
+      </p>
+    </form>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
