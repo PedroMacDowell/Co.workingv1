@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import { ArrowIcon } from './icons';
 
 const WHATSAPP_NUMBER = '5521999999999';
 
@@ -82,13 +83,5 @@ export default function ProposalForm() {
         {status}
       </p>
     </form>
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </svg>
   );
 }

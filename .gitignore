@@ -1,14 +1,8 @@
 node_modules/
 dist/
-.next/
-.vinext/
-.wrangler/
-next-env.d.ts
+.vercel/
 *.tsbuildinfo
 .env
 .env.*
 !.env.example
-.chrome-profile-*/
-.sites-starter/
-screenshots/
 *.log
