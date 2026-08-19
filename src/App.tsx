@@ -16,17 +16,19 @@ export default function App() {
     <>
       <ScrollIntro />
       <Header />
-      <main>
-        <Hero />
-        <Intro />
-        <Services />
-        <Rooms />
-        <Experience />
-        <Plans />
-        <CompaniesCarousel />
-        <Contact />
-      </main>
-      <Footer />
+      <div className="content-shell">
+        <main>
+          <Hero />
+          <Intro />
+          <Services />
+          <Rooms />
+          <Experience />
+          <Plans />
+          <CompaniesCarousel />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

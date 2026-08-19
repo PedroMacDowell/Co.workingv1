@@ -1,45 +1,56 @@
 import { useEffect, useRef } from 'react';
 
 export default function ScrollIntro() {
-  const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const updateProgress = () => {
-      const section = sectionRef.current;
-      const stage = stageRef.current;
+    let frame = 0;
 
-      if (!section || !stage) {
+    const updateProgress = () => {
+      const stage = stageRef.current;
+      const root = document.documentElement;
+      const introDistance = Math.round(Math.min(Math.max(window.innerHeight * 0.78, 520), 820));
+      const introOffset = Math.min(Math.max(window.scrollY, 0), introDistance);
+      const progress = introOffset / introDistance;
+
+      root.style.setProperty('--intro-distance', `${introDistance}px`);
+      root.style.setProperty('--intro-offset', `${introOffset}px`);
+
+      if (stage) {
+        stage.style.setProperty('--open-progress', progress.toString());
+      }
+    };
+
+    const requestUpdate = () => {
+      if (frame) {
         return;
       }
 
-      const rect = section.getBoundingClientRect();
-      const scrollable = section.offsetHeight - window.innerHeight;
-      const progress = Math.min(Math.max(-rect.top / scrollable, 0), 1);
-
-      stage.style.setProperty('--open-progress', progress.toString());
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        updateProgress();
+      });
     };
 
     updateProgress();
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
 
     return () => {
-      window.removeEventListener('scroll', updateProgress);
-      window.removeEventListener('resize', updateProgress);
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+      document.documentElement.style.removeProperty('--intro-distance');
+      document.documentElement.style.removeProperty('--intro-offset');
     };
   }, []);
 
   return (
-    <section className="scroll-intro" ref={sectionRef} aria-label="Abertura 4U Coworking">
+    <section className="scroll-intro" aria-label="Abertura 4U Coworking">
       <div className="scroll-intro-stage" ref={stageRef}>
-        <img
-          className="scroll-intro-image"
-          src="/assets/hero-coworking.png"
-          alt=""
-          aria-hidden="true"
-        />
-        <div className="scroll-intro-shade" aria-hidden="true" />
         <div className="curtain curtain-left" aria-hidden="true" />
         <div className="curtain curtain-right" aria-hidden="true" />
 
