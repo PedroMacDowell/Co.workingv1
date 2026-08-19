@@ -19,9 +19,9 @@ export default function ProposalForm() {
       'Gostaria de receber uma proposta.';
 
     const text = [
-      'Ola, vim pelo site da 4U Coworking.',
-      `Meu nome e ${nome}.`,
-      `Meu WhatsApp e ${whatsapp}.`,
+      'Olá, vim pelo site da 4U Coworking.',
+      `Meu nome é ${nome}.`,
+      `Meu WhatsApp é ${whatsapp}.`,
       `Tenho interesse em: ${servico}.`,
       `Mensagem: ${mensagem}`,
     ].join('\n');
@@ -55,13 +55,13 @@ export default function ProposalForm() {
       </label>
 
       <label>
-        Servico de interesse
+        Serviço de interesse
         <select name="servico" required defaultValue="">
           <option value="">Selecione</option>
           <option>Salas privativas</option>
-          <option>Sala de reuniao</option>
-          <option>Estacao de trabalho</option>
-          <option>Endereco comercial</option>
+          <option>Sala de reunião</option>
+          <option>Estação de trabalho</option>
+          <option>Endereço comercial</option>
           <option>Plano personalizado</option>
         </select>
       </label>

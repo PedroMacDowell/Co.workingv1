@@ -489,6 +489,118 @@ h3 {
   color: var(--black);
 }
 
+.companies {
+  background: #e9eef3;
+  border-top: 1px solid #d1d8de;
+  border-bottom: 1px solid #d1d8de;
+}
+
+.companies-inner {
+  width: min(100% - 36px, calc(var(--max-width) + 420px));
+  margin: 0 auto;
+  padding: 8px 0 0;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  height: 42px;
+}
+
+.carousel-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d9c8bd;
+}
+
+.carousel-dots .active {
+  background: var(--orange);
+}
+
+.companies-panel {
+  padding: 46px 22px 58px;
+  border-top: 1px solid #cfd8df;
+  border-bottom: 1px solid #cfd8df;
+}
+
+.companies-kicker {
+  margin: 0 0 42px;
+  color: #f05a3c;
+  font-size: 1.08rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.logo-viewport {
+  overflow: hidden;
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  gap: clamp(46px, 6vw, 84px);
+  align-items: center;
+  animation: logo-scroll 26s linear infinite;
+}
+
+.logo-viewport:hover .logo-track {
+  animation-play-state: paused;
+}
+
+.client-logo {
+  flex: 0 0 180px;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  color: var(--black);
+  line-height: 0.95;
+  text-align: center;
+}
+
+.client-logo span {
+  font-size: clamp(1.85rem, 3vw, 3rem);
+  font-weight: 900;
+}
+
+.client-logo small {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.green-logo {
+  color: #00a86b;
+}
+
+.blue-logo {
+  color: #0f6b88;
+}
+
+.orange-logo {
+  color: #f27600;
+}
+
+.ink-logo span {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.black-logo span {
+  font-weight: 800;
+}
+
+@keyframes logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - clamp(23px, 3vw, 42px)));
+  }
+}
+
 .contact {
   display: grid;
   grid-template-columns: minmax(0, 0.86fr) minmax(320px, 1.14fr);
@@ -672,6 +784,28 @@ textarea:focus {
   .room-card {
     grid-template-columns: 1fr;
     min-height: auto;
+  }
+
+  .companies-inner {
+    width: 100%;
+  }
+
+  .companies-panel {
+    padding: 38px 18px 46px;
+  }
+
+  .companies-kicker {
+    margin-bottom: 30px;
+    font-size: 0.96rem;
+  }
+
+  .logo-track {
+    gap: 34px;
+    animation-duration: 18s;
+  }
+
+  .client-logo {
+    flex-basis: 145px;
   }
 
   .site-footer {

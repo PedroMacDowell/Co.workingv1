@@ -6,6 +6,7 @@ import {
   plans,
   rooms,
   services,
+  trustedCompanies,
 } from './content';
 import { ArrowIcon, icons } from './icons';
 
@@ -20,6 +21,7 @@ export default function App() {
         <Rooms />
         <Experience />
         <Plans />
+        <CompaniesCarousel />
         <Contact />
       </main>
       <Footer />
@@ -38,7 +40,7 @@ function Header() {
         </span>
       </a>
 
-      <nav className="main-nav" aria-label="Navegacao principal">
+      <nav className="main-nav" aria-label="Navegação principal">
         {navItems.map((item) => (
           <a href={item.href} key={item.href}>
             {item.label}
@@ -64,14 +66,14 @@ function Hero() {
       <div className="hero-overlay" aria-hidden="true" />
 
       <div className="hero-content">
-        <p className="eyebrow">Salas privativas + coworking flexivel</p>
+        <p className="eyebrow">Salas privativas + coworking flexível</p>
         <h1 id="hero-title">
           <span className="line">4U</span>
           <span className="line">Coworking</span>
         </h1>
         <p className="hero-copy">
-          Um endereco profissional para trabalhar, reunir clientes e crescer com
-          estrutura pronta, atendimento proximo e planos sob medida.
+          Um endereço profissional para trabalhar, reunir clientes e crescer com
+          estrutura pronta, atendimento próximo e planos sob medida.
         </p>
 
         <div className="hero-actions">
@@ -80,7 +82,7 @@ function Hero() {
             <ArrowIcon />
           </a>
           <a className="button button-secondary" href="#servicos">
-            Ver servicos
+            Ver serviços
           </a>
         </div>
 
@@ -100,13 +102,13 @@ function Hero() {
 function Intro() {
   return (
     <section className="intro section">
-      <div className="section-kicker">Para empresas, autonomos e equipes enxutas</div>
+      <div className="section-kicker">Para empresas, autônomos e equipes enxutas</div>
       <div className="intro-grid">
-        <h2>Trabalhe em um ambiente profissional sem montar um escritorio do zero.</h2>
+        <h2>Trabalhe em um ambiente profissional sem montar um escritório do zero.</h2>
         <p>
-          A 4U Coworking combina privacidade, localizacao conveniente e servicos
-          compartilhados para quem precisa de presenca profissional com custo
-          previsivel.
+          A 4U Coworking combina privacidade, localização conveniente e serviços
+          compartilhados para quem precisa de presença profissional com custo
+          previsível.
         </p>
       </div>
     </section>
@@ -117,7 +119,7 @@ function Services() {
   return (
     <section className="services section" id="servicos" aria-labelledby="services-title">
       <SectionHeading
-        kicker="Servicos"
+        kicker="Serviços"
         title="Tudo pronto para sua rotina render."
         text="Escolha o formato ideal para trabalhar, receber clientes ou formalizar sua empresa."
         titleId="services-title"
@@ -150,8 +152,8 @@ function Rooms() {
     <section className="rooms section" id="salas" aria-labelledby="rooms-title">
       <SectionHeading
         kicker="Nossas salas"
-        title="Duas salas privativas para diferentes momentos do seu negocio."
-        text="Use como base fixa, ponto de atendimento ou sala estrategica para encontros presenciais."
+        title="Duas salas privativas para diferentes momentos do seu negócio."
+        text="Use como base fixa, ponto de atendimento ou sala estratégica para encontros presenciais."
         titleId="rooms-title"
       />
 
@@ -177,10 +179,10 @@ function Rooms() {
 
 function Experience() {
   return (
-    <section className="experience" aria-label="Beneficios da 4U Coworking">
+    <section className="experience" aria-label="Benefícios da 4U Coworking">
       <div className="experience-inner">
-        <span className="section-kicker">Experiencia</span>
-        <h2>Privacidade quando voce precisa. Estrutura compartilhada quando faz sentido.</h2>
+        <span className="section-kicker">Experiência</span>
+        <h2>Privacidade quando você precisa. Estrutura compartilhada quando faz sentido.</h2>
         <div className="benefit-row">
           {benefits.map((benefit) => (
             <span key={benefit}>{benefit}</span>
@@ -196,8 +198,8 @@ function Plans() {
     <section className="plans section" id="planos" aria-labelledby="plans-title">
       <SectionHeading
         kicker="Planos"
-        title="Escolha pelo uso, nao pela burocracia."
-        text="Os formatos abaixo servem como ponto de partida. A proposta final e ajustada conforme rotina, frequencia e necessidade."
+        title="Escolha pelo uso, não pela burocracia."
+        text="Os formatos abaixo servem como ponto de partida. A proposta final é ajustada conforme rotina, frequência e necessidade."
         titleId="plans-title"
       />
 
@@ -217,19 +219,51 @@ function Plans() {
   );
 }
 
+function CompaniesCarousel() {
+  return (
+    <section className="companies" aria-labelledby="companies-title">
+      <div className="companies-inner">
+        <div className="carousel-dots" aria-hidden="true">
+          <span />
+          <span className="active" />
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <div className="companies-panel">
+          <h2 className="companies-kicker" id="companies-title">
+            Empresas que confiam na 4U
+          </h2>
+          <div className="logo-viewport" aria-label="Empresas atendidas pela 4U">
+            <div className="logo-track">
+              {[...trustedCompanies, ...trustedCompanies].map((company, index) => (
+                <div className={`client-logo ${company.tone}`} key={`${company.name}-${index}`}>
+                  <span>{company.name}</span>
+                  {company.subline && <small>{company.subline}</small>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
   return (
     <section className="contact section" id="contato" aria-labelledby="contact-title">
       <div className="contact-copy">
         <span className="section-kicker">Contato</span>
-        <h2 id="contact-title">Agende uma visita ou peca uma proposta.</h2>
+        <h2 id="contact-title">Agende uma visita ou peça uma proposta.</h2>
         <p>
-          Conte rapidamente o que voce precisa e retornaremos com a melhor opcao de
-          sala, plano e horario para visita.
+          Conte rapidamente o que você precisa e retornaremos com a melhor opção de
+          sala, plano e horário para visita.
         </p>
         <div className="contact-note">
           <strong>4U Coworking</strong>
-          <span>Salas privativas, reuniao e endereco comercial.</span>
+          <span>Salas privativas, reunião e endereço comercial.</span>
         </div>
       </div>
 
