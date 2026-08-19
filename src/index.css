@@ -64,6 +64,8 @@ a {
 .curtain {
   position: absolute;
   inset: 0;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 .curtain {
@@ -91,6 +93,7 @@ a {
   padding: clamp(8px, 1.6vw, 14px) clamp(12px, 2vw, 20px);
   background: var(--black);
   color: var(--orange);
+  will-change: transform, opacity;
   transform:
     translateY(calc(var(--open-progress) * -42px))
     scale(calc(1 - (var(--open-progress) * 0.24)));
@@ -119,8 +122,9 @@ a {
 .content-shell {
   position: relative;
   z-index: 1;
-  top: var(--intro-offset);
   margin-bottom: var(--intro-distance);
+  transform: translate3d(0, var(--intro-offset), 0);
+  will-change: transform;
 }
 
 .site-header {
@@ -881,8 +885,32 @@ textarea:focus {
 }
 
 @media (max-width: 640px) {
+  .scroll-intro {
+    height: calc(100svh + var(--intro-distance));
+    margin-bottom: calc(-100svh - var(--intro-distance));
+  }
+
+  .scroll-intro-stage {
+    height: 100svh;
+  }
+
+  .curtain {
+    left: 0;
+    right: 0;
+    width: 100%;
+    opacity: calc(1 - var(--open-progress));
+    transform: none;
+  }
+
+  .curtain-right {
+    display: none;
+  }
+
   .opening-logo {
     gap: 10px;
+    transform:
+      translateY(calc(var(--open-progress) * -14px))
+      scale(calc(1 - (var(--open-progress) * 0.08)));
   }
 
   .opening-mark {
