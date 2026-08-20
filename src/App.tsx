@@ -1,5 +1,4 @@
 import ProposalForm from './ProposalForm';
-import ScrollIntro from './ScrollIntro';
 import {
   benefits,
   metrics,
@@ -14,7 +13,6 @@ import { ArrowIcon, icons } from './icons';
 export default function App() {
   return (
     <>
-      <ScrollIntro />
       <Header />
       <div className="content-shell">
         <main>
