@@ -11,8 +11,6 @@
   --charcoal: #202020;
   --radius: 8px;
   --max-width: 1180px;
-  --intro-distance: 760px;
-  --intro-offset: 0px;
 }
 
 * {
@@ -43,61 +41,38 @@ a {
 }
 
 .scroll-intro {
-  position: relative;
+  position: fixed;
+  inset: 0;
   z-index: 60;
-  height: calc(100vh + var(--intro-distance));
-  margin-bottom: calc(-100vh - var(--intro-distance));
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--black);
   pointer-events: none;
+  animation: intro-shell 360ms ease 780ms forwards;
 }
 
 .scroll-intro-stage {
-  --open-progress: 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
+  position: relative;
   display: grid;
   place-items: center;
-  isolation: isolate;
-}
-
-.curtain {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  will-change: transform, opacity;
-}
-
-.curtain {
-  z-index: 1;
-  width: 52%;
+  width: 100%;
+  height: 100%;
   background: var(--black);
-}
-
-.curtain-left {
-  right: auto;
-  transform: translateX(calc(var(--open-progress) * -102%));
-}
-
-.curtain-right {
-  left: auto;
-  transform: translateX(calc(var(--open-progress) * 102%));
 }
 
 .opening-logo {
   position: relative;
-  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: clamp(12px, 2vw, 22px);
   padding: clamp(8px, 1.6vw, 14px) clamp(12px, 2vw, 20px);
   background: var(--black);
   color: var(--orange);
+  opacity: 0;
   will-change: transform, opacity;
-  transform:
-    translateY(calc(var(--open-progress) * -42px))
-    scale(calc(1 - (var(--open-progress) * 0.24)));
-  opacity: calc(1 - var(--open-progress));
+  animation: intro-logo 980ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .opening-mark {
@@ -122,9 +97,31 @@ a {
 .content-shell {
   position: relative;
   z-index: 1;
-  margin-bottom: var(--intro-distance);
-  transform: translate3d(0, var(--intro-offset), 0);
-  will-change: transform;
+}
+
+@keyframes intro-shell {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes intro-logo {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.96);
+  }
+
+  20%,
+  68% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0) scale(0.98);
+  }
 }
 
 .site-header {
@@ -885,32 +882,8 @@ textarea:focus {
 }
 
 @media (max-width: 640px) {
-  .scroll-intro {
-    height: calc(100svh + var(--intro-distance));
-    margin-bottom: calc(-100svh - var(--intro-distance));
-  }
-
-  .scroll-intro-stage {
-    height: 100svh;
-  }
-
-  .curtain {
-    left: 0;
-    right: 0;
-    width: 100%;
-    opacity: calc(1 - var(--open-progress));
-    transform: none;
-  }
-
-  .curtain-right {
-    display: none;
-  }
-
   .opening-logo {
     gap: 10px;
-    transform:
-      translateY(calc(var(--open-progress) * -14px))
-      scale(calc(1 - (var(--open-progress) * 0.08)));
   }
 
   .opening-mark {
@@ -1019,5 +992,13 @@ textarea:focus {
 
   .site-footer {
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-intro,
+  .opening-logo {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
   }
 }
