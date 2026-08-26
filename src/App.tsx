@@ -199,20 +199,22 @@ function Plans() {
   return (
     <section className="plans section" id="planos" aria-labelledby="plans-title">
       <SectionHeading
-        kicker="Planos e preços"
-        title="Escolha o formato ideal para sua rotina."
-        text="Os valores são montados conforme tipo de sala, frequência de uso e necessidade da empresa. A proposta vem objetiva, sem pacote engessado."
+        kicker="Planos disponíveis para contratação online"
+        title="Escolha o plano ideal para sua empresa."
+        text="Tenha um endereço fiscal profissional, gestão de correspondências e benefícios para usar a estrutura da 4U."
         titleId="plans-title"
       />
 
-      <div className="plan-grid">
+      <div className="plan-grid" aria-label="Planos de endereço fiscal">
         {plans.map((plan) => (
-          <article
-            className={`plan-card${plan.highlight ? ' plan-card-highlight' : ''}`}
-            key={plan.title}
-          >
-            <h3>{plan.title}</h3>
+          <article className="plan-card" key={plan.title}>
+            <header className="plan-card-header">
+              <h3>{plan.title}</h3>
+              <p>{plan.detail}</p>
+              {plan.detailNote && <p>{plan.detailNote}</p>}
+            </header>
             <div className="plan-price">
+              <span className="plan-currency">R$</span>
               <strong>{plan.price}</strong>
               <span>{plan.period}</span>
             </div>
@@ -222,17 +224,10 @@ function Plans() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <a href="#contato">{plan.cta}</a>
+            <a className="plan-cta" href="#contato">{plan.cta}</a>
+            <small className="plan-footnote">*Envio imediato de documentos por e-mail, após a contratação.</small>
           </article>
         ))}
-      </div>
-
-      <div className="pricing-note">
-        <strong>Precisa de um valor fechado?</strong>
-        <span>
-          Envie sua rotina de uso e retornamos com uma proposta para sala privativa,
-          reunião, endereço comercial ou combinação de serviços.
-        </span>
       </div>
     </section>
   );
