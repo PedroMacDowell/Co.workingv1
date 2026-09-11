@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.vercel/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+*.log
+.codex_pdf_pages/
+.codex_tmp/
+.codex_extract_pdf.py
+.codex_render_pdf.py
+tmp/
