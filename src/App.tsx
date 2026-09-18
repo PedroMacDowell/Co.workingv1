@@ -420,7 +420,7 @@ function Pricing() {
         <div className="fiscal-grid">
           {fiscalPlans.map((plan) => (
             <article className={`fiscal-card${plan.popular ? ' fiscal-card-featured' : ''}`} key={plan.title}>
-              {plan.popular && <span className="fiscal-badge">Plano anual</span>}
+              {plan.popular && <span className="fiscal-badge">Plano {plan.title.toLowerCase()}</span>}
               <h4>{plan.title}</h4>
               <strong>{plan.price}</strong>
               <span>{plan.detail}</span>

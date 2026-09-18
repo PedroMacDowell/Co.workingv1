@@ -263,14 +263,14 @@ export const fiscalPlans = [
     price: 'R$ 149,70',
     detail: 'pagamento mensal',
     discount: 'Valor mensal',
-    popular: false,
+    popular: true,
   },
   {
     title: 'Anual',
     price: 'R$ 1.616,76',
     detail: '12 meses • equivalente a R$ 134,73/mês',
     discount: '10% de desconto',
-    popular: true,
+    popular: false,
   },
   {
     title: 'Bienal',
