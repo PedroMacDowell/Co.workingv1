@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ProposalForm from './ProposalForm';
 import {
   advantages,
   buildWhatsAppUrl,
-  fiscalPlans,
   galleryImages,
   googleReviewsUrl,
   heroSlides,
   instagramUrl,
   locationInfo,
   navItems,
+  planGroups,
   processSteps,
   serviceCards,
-  servicePricing,
   testimonials,
   trustedCompanies,
 } from './content';
@@ -51,7 +50,7 @@ function Header() {
   return (
     <header className="site-header" id="topo">
       <a className="brand" href="#topo" aria-label="4U Coworking">
-        <img src="/assets/logo-4u.svg" alt="4U Coworking" width={74} height={74} />
+        <img src={`${import.meta.env.BASE_URL}assets/logo-4u.svg`} alt="4U Coworking" width={74} height={74} />
         <span>
           <strong>4U</strong>
           <small>coworking</small>
@@ -292,7 +291,48 @@ function Process() {
   );
 }
 
+// Depoimentos acima deste tamanho aparecem resumidos, com opção de ler tudo.
+const longQuote = 260;
+
+// Distância entre o início de dois cards vizinhos do carrossel.
+function carouselStep(track: HTMLElement) {
+  const card = track.firstElementChild as HTMLElement | null;
+  if (!card) return 0;
+  return card.offsetWidth + parseFloat(getComputedStyle(track).columnGap || '0');
+}
+
 function Testimonials() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState(0);
+  const [positionCount, setPositionCount] = useState(1);
+  const [expanded, setExpanded] = useState<number | null>(null);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const update = () => {
+      const step = carouselStep(track);
+      if (!step) return;
+      setPositionCount(Math.round((track.scrollWidth - track.clientWidth) / step) + 1);
+      setPosition(Math.round(track.scrollLeft / step));
+    };
+    update();
+    track.addEventListener('scroll', update, { passive: true });
+    const observer = new ResizeObserver(update);
+    observer.observe(track);
+    return () => {
+      track.removeEventListener('scroll', update);
+      observer.disconnect();
+    };
+  }, []);
+
+  function goTo(index: number) {
+    const track = trackRef.current;
+    if (!track) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    track.scrollTo({ left: index * carouselStep(track), behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
   return (
     <section className="testimonials section" id="depoimentos" aria-labelledby="testimonials-title">
       <SectionHeading
@@ -302,22 +342,80 @@ function Testimonials() {
         titleId="testimonials-title"
       />
 
-      <div className="testimonial-grid">
-        {testimonials.map((testimonial) => (
-          <article className="testimonial-card" key={testimonial.author}>
-            <span className="quote-mark" aria-hidden="true">“</span>
-            <blockquote>{testimonial.quote}</blockquote>
-            <strong>{testimonial.author}</strong>
-            <span>{testimonial.role}</span>
-            <a className="testimonial-source" href={testimonial.sourceUrl} target="_blank" rel="noreferrer">Depoimento publicado no site da 4U <ArrowIcon /></a>
-          </article>
-        ))}
-        <article className="google-review-card">
-          <span className="section-kicker">No Google</span>
-          <h3>Conheça outras experiências.</h3>
-          <p>Confira as avaliações e descubra o que os clientes contam sobre a 4U Coworking.</p>
-          <a className="button button-outline" href={googleReviewsUrl} target="_blank" rel="noreferrer">Ver avaliações no Google <ArrowIcon /></a>
-        </article>
+      <div className="review-carousel" role="region" aria-roledescription="carrossel" aria-label="Depoimentos de clientes">
+        <div className="review-track" ref={trackRef} tabIndex={0}>
+          {testimonials.map((testimonial, index) => (
+            <article
+              className="review-card"
+              key={`${testimonial.author}-${testimonial.role}`}
+              aria-label={`Depoimento ${index + 1} de ${testimonials.length}`}
+            >
+              <div className="review-card-top">
+                <span className="quote-mark" aria-hidden="true">“</span>
+                {testimonial.example && <span className="review-tag">Exemplo</span>}
+              </div>
+              <div className="review-body">
+                <blockquote className={testimonial.quote.length > longQuote && expanded !== index ? 'is-clamped' : ''}>
+                  {testimonial.quote}
+                </blockquote>
+                {testimonial.quote.length > longQuote && (
+                  <button
+                    className="review-more"
+                    type="button"
+                    aria-expanded={expanded === index}
+                    onClick={() => setExpanded(expanded === index ? null : index)}
+                  >
+                    {expanded === index ? 'Mostrar menos' : 'Ler depoimento completo'}
+                  </button>
+                )}
+              </div>
+              <footer className="review-author">
+                <span className="review-avatar" aria-hidden="true">{testimonial.author.charAt(0)}</span>
+                <div>
+                  <strong>{testimonial.author}</strong>
+                  <span>{testimonial.role}</span>
+                </div>
+              </footer>
+            </article>
+          ))}
+        </div>
+
+        <div className="review-controls">
+          <a className="button button-outline" href={googleReviewsUrl} target="_blank" rel="noreferrer">
+            Ver avaliações no Google <ArrowIcon />
+          </a>
+          <div className="review-nav">
+            <div className="review-dots" role="group" aria-label="Escolher depoimentos">
+              {Array.from({ length: positionCount }, (_, index) => (
+                <button
+                  type="button"
+                  key={index}
+                  aria-label={`Mostrar depoimentos a partir do ${index + 1}º`}
+                  aria-pressed={position === index}
+                  onClick={() => goTo(index)}
+                ><span /></button>
+              ))}
+            </div>
+            <button
+              className="review-arrow review-arrow-prev"
+              type="button"
+              aria-label="Depoimentos anteriores"
+              disabled={position === 0}
+              onClick={() => goTo(position - 1)}
+            >
+              <ArrowIcon />
+            </button>
+            <button
+              className="review-arrow"
+              type="button"
+              aria-label="Próximos depoimentos"
+              disabled={position >= positionCount - 1}
+              onClick={() => goTo(position + 1)}
+            >
+              <ArrowIcon />
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="companies-panel">
@@ -358,96 +456,58 @@ function Pricing() {
         titleId="pricing-title"
       />
 
-      <div className="pricing-highlight">
-        <div className="pricing-board">
-          {servicePricing.map((plan) => {
-            return (
-              <article className="pricing-card" key={plan.title}>
-                <img className="pricing-photo" src={plan.image} alt={plan.imageAlt} loading="lazy" />
-                <div className="pricing-details">
-                  <header className="pricing-card-header">
-                    <h3>{plan.title}</h3>
-                    <p>{plan.text}</p>
-                  </header>
+      <div className="plan-groups">
+        {planGroups.map((group) => (
+          <div className={`plan-group plan-group-${group.tone}`} key={group.name}>
+            <div className="plan-group-intro">
+              <h3>
+                <span>4U</span> {group.name}
+              </h3>
+              <p>{group.audience}</p>
+            </div>
 
-                  <ul className="pricing-list">
-                    {plan.items.map((item) => (
-                      <li key={`${plan.title}-${item.label}`}>
-                        <div>
-                          <strong>{item.label}</strong>
-                          {'note' in item && item.note && <small>{item.note}</small>}
-                        </div>
-                        <span>{item.value}</span>
-                      </li>
-                    ))}
-                  </ul>
+            <div className="plan-group-services">
+              {group.services.map((service) => (
+                <article className="plan-card" key={service.title}>
+                  <div className="plan-card-media">
+                    <img src={service.image} alt={service.imageAlt} loading="lazy" />
+                  </div>
 
-                  <a
-                    className="pricing-link"
-                    href={buildWhatsAppUrl(`Olá, quero consultar valores para ${plan.title}.`)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Fale conosco
-                    <ArrowIcon />
-                  </a>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                  <div className="plan-card-body">
+                    <header className="plan-card-header">
+                      <h4>{service.title}</h4>
+                      <a
+                        className="plan-card-cta"
+                        href={buildWhatsAppUrl(`Olá, quero consultar valores para ${service.title}.`)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Fale conosco
+                        <ArrowIcon />
+                      </a>
+                    </header>
+                    <p className="plan-card-text">{service.text}</p>
+
+                    <ul className="pricing-list">
+                      {service.items.map((item) => (
+                        <li key={item.label} className={item.featured ? 'is-featured' : undefined}>
+                          <div>
+                            <strong>{item.label}</strong>
+                            {item.note && <small>{item.note}</small>}
+                          </div>
+                          <span>{item.value}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <p className="plan-card-meta">Disponível na Unidade Pendotiba</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
-
-      <div className="fiscal-pricing">
-        <div className="fiscal-copy">
-          <span className="section-kicker">Endereço fiscal e comercial</span>
-          <h3>Formalize sua empresa com uma presença profissional.</h3>
-          <p>
-            Escolha a vigência que faz sentido para o seu negócio e conte com o suporte da
-            4U para receber correspondências.
-          </p>
-          <a
-            className="button button-outline"
-            href={buildWhatsAppUrl('Olá, quero saber mais sobre endereço fiscal e comercial.')}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Consultar endereço fiscal
-            <ArrowIcon />
-          </a>
-        </div>
-
-        <div className="fiscal-grid">
-          {fiscalPlans.map((plan) => (
-            <article className={`fiscal-card${plan.popular ? ' fiscal-card-featured' : ''}`} key={plan.title}>
-              {plan.popular && <span className="fiscal-badge">Plano {plan.title.toLowerCase()}</span>}
-              <h4>{plan.title}</h4>
-              <strong>{plan.price}</strong>
-              <span>{plan.detail}</span>
-              <p>{plan.discount}</p>
-              <a className="fiscal-link" href={buildWhatsAppUrl(`Olá, tenho interesse no plano ${plan.title.toLowerCase()} de endereço fiscal e comercial, no valor de ${plan.price}.`)} target="_blank" rel="noreferrer">Consultar plano <ArrowIcon /></a>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <article className="pricing-consultation">
-        <div>
-          <span>Para equipes e projetos especiais</span>
-          <h3>Escritórios sob demanda</h3>
-          <strong className="consultation-price">Valor sob consulta</strong>
-          <p>Conte para a equipe o que você precisa e montamos uma solução compatível com a sua operação.</p>
-        </div>
-        <a
-          className="button button-secondary"
-          href={buildWhatsAppUrl('Olá, quero conversar sobre um escritório sob demanda.')}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Falar com a equipe
-          <ArrowIcon />
-        </a>
-      </article>
     </section>
   );
 }

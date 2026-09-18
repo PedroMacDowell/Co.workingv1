@@ -42,7 +42,8 @@ export const navItems = [
 
 export const heroSlides = [
   {
-    image: '/assets/hero-coworking.png',
+    // Arquivos de public/ precisam da base do GitHub Pages (/Co.workingv1/).
+    image: `${import.meta.env.BASE_URL}assets/hero-coworking.png`,
     alt: 'Interior moderno de coworking com salas privativas',
   },
   {
@@ -171,12 +172,47 @@ export const processSteps = [
   },
 ];
 
-export const testimonials = [
+export const testimonials: Array<{
+  quote: string;
+  author: string;
+  role: string;
+  example?: boolean;
+}> = [
   {
-    quote: 'Locação simples, rápida, sem burocracia, local sempre limpo e agradável.',
+    // Depoimento publicado no site atual (4ucoworking.com.br).
+    quote:
+      'Procurava um consultório de fácil acesso e com todas as características para atendimento em laserterapia de reabilitação. Foi exatamente o que queria. Locação simples, rápida, sem burocracia, local sempre limpo e agradável. Antes tinha um consultório onde eu precisava prover tudo, agora só entro e faço meu trabalho sem me preocupar com mais nada. Otimização de tempo e dinheiro também, por não ter que pagar condomínio e outros custos de um local próprio. Além disso, a empresa é muito acessível, o que facilita a boa dinâmica entre nós. Estou há 2 meses e adorando a parceria. Super recomendo.',
     author: 'Cristiane Pires',
-    role: 'Cliente de consultório • trecho do depoimento',
-    sourceUrl: 'https://www.4ucoworking.com.br/',
+    role: 'Consultório • laserterapia de reabilitação',
+  },
+  // Exemplos para fechar o visual do carrossel: substituir pelas avaliações reais do Google.
+  {
+    quote:
+      'Estrutura pronta, internet estável e uma equipe sempre disposta a ajudar. Consigo manter minha rotina sem me preocupar com nada além das minhas entregas.',
+    author: 'Cliente 4U',
+    role: 'Estação de trabalho',
+    example: true,
+  },
+  {
+    quote:
+      'Usamos a sala para receber clientes e fazer treinamentos. O ambiente passa uma imagem profissional e o estacionamento facilita a chegada de todos.',
+    author: 'Cliente 4U',
+    role: 'Sala de reunião e treinamento',
+    example: true,
+  },
+  {
+    quote:
+      'Formalizamos a empresa com o endereço fiscal da 4U. O processo foi simples e as correspondências chegam organizadas, com aviso rápido da equipe.',
+    author: 'Cliente 4U',
+    role: 'Endereço fiscal e comercial',
+    example: true,
+  },
+  {
+    quote:
+      'Nosso time ganhou um escritório privativo com tudo funcionando desde o primeiro dia, em um local de fácil acesso em Niterói.',
+    author: 'Cliente 4U',
+    role: 'Escritório privativo',
+    example: true,
   },
 ];
 
@@ -206,85 +242,132 @@ const meetingPricing = [
   { label: 'Extra por pessoa', value: 'R$ 49,90' },
 ];
 
+const fiscalPricing = [
+  { label: 'Mensal', value: 'R$ 149,70', note: 'pagamento mês a mês', featured: true },
+  { label: 'Anual (12 meses)', value: 'R$ 1.616,76', note: '10% de desconto • R$ 134,73/mês' },
+  { label: 'Bienal (24 meses)', value: 'R$ 2.874,24', note: '20% de desconto • R$ 119,76/mês' },
+  { label: 'Trienal (36 meses)', value: 'R$ 3.772,44', note: '30% de desconto • R$ 104,79/mês' },
+];
+
 type PricingItem = {
   label: string;
   value: string;
   note?: string;
+  // Linha em destaque na tabela (hoje, o plano mensal do endereço fiscal).
+  featured?: boolean;
 };
 
-export const servicePricing: Array<{
-  title: string;
-  text: string;
-  items: PricingItem[];
-  image: string;
-  imageAlt: string;
+// Seção de valores no formato da referência: um bloco colorido por perfil de
+// cliente e, ao lado, o serviço desse perfil. Cada serviço aparece uma vez só.
+export const planGroups: Array<{
+  tone: 'peach' | 'charcoal' | 'orange' | 'green' | 'rust' | 'blue';
+  name: string;
+  audience: string;
+  services: Array<{
+    title: string;
+    text: string;
+    items: PricingItem[];
+    image: string;
+    imageAlt: string;
+  }>;
 }> = [
   {
-    title: 'Estação de trabalho e estudo',
-    text: 'Para uso pontual, semanal ou mensal com estrutura pronta.',
-    items: workspacePricing,
-    image: officeImages.sharedOffice,
-    imageAlt: 'Ambiente ilustrativo de estações de trabalho',
-  },
-  {
-    title: 'Salas de reunião e treinamento',
-    text: 'Para reuniões, entrevistas, apresentações e workshops.',
-    items: meetingPricing,
-    image: officeImages.meetingRoom,
-    imageAlt: 'Ambiente ilustrativo de sala para reuniões',
-  },
-  {
-    title: 'Escritórios privativos',
-    text: 'Salas reservadas para atendimento e rotina de pequenos times.',
-    items: meetingPricing,
-    image: officeImages.privateOffice,
-    imageAlt: 'Ambiente ilustrativo de escritório privativo',
-  },
-  {
-    title: 'Consultório para área da saúde',
-    text: 'Para atendimentos com privacidade e agenda flexível.',
-    image: officeImages.healthOffice,
-    imageAlt: 'Ambiente ilustrativo de consultório de saúde',
-    items: [
-      { label: 'Hora', value: 'R$ 99,90' },
-      { label: 'Período (4h)', value: 'R$ 249,90' },
+    tone: 'peach',
+    name: 'do seu jeito.',
+    audience:
+      'Para freelancers, profissionais autônomos, estudantes, produtores de conteúdo e prestadores de serviço.',
+    services: [
       {
-        label: 'Mensal com endereço fiscal',
-        value: 'R$ 1.398,90',
-        note: 'até 12 períodos mensais',
+        title: 'Estação de trabalho e estudo',
+        text: 'Produtividade e flexibilidade no seu ritmo, com estrutura pronta para uso pontual, semanal ou mensal.',
+        items: workspacePricing,
+        image: officeImages.sharedOffice,
+        imageAlt: 'Ambiente ilustrativo de estações de trabalho',
       },
     ],
   },
-];
-
-export const fiscalPlans = [
   {
-    title: 'Mensal',
-    price: 'R$ 149,70',
-    detail: 'pagamento mensal',
-    discount: 'Valor mensal',
-    popular: true,
+    tone: 'charcoal',
+    name: 'para seus encontros.',
+    audience:
+      'Para consultores, recrutadores, educadores e empresas que recebem clientes, entrevistam ou treinam equipes.',
+    services: [
+      {
+        title: 'Salas de reunião e treinamento',
+        text: 'Ambientes equipados para reuniões, entrevistas, apresentações e workshops.',
+        items: meetingPricing,
+        image: officeImages.meetingRoom,
+        imageAlt: 'Ambiente ilustrativo de sala para reuniões',
+      },
+    ],
   },
   {
-    title: 'Anual',
-    price: 'R$ 1.616,76',
-    detail: '12 meses • equivalente a R$ 134,73/mês',
-    discount: '10% de desconto',
-    popular: false,
+    tone: 'orange',
+    name: 'na sua rotina.',
+    audience:
+      'Para pequenas empresas, startups em crescimento, profissionais estabelecidos e equipes enxutas.',
+    services: [
+      {
+        title: 'Escritórios privativos',
+        text: 'Privacidade e conforto para sua equipe render mais, com tudo pronto para usar.',
+        items: meetingPricing,
+        image: officeImages.privateOffice,
+        imageAlt: 'Ambiente ilustrativo de escritório privativo',
+      },
+    ],
   },
   {
-    title: 'Bienal',
-    price: 'R$ 2.874,24',
-    detail: '24 meses • equivalente a R$ 119,76/mês',
-    discount: '20% de desconto',
-    popular: false,
+    tone: 'green',
+    name: 'para a saúde.',
+    audience:
+      'Para psicólogos, nutricionistas, fisioterapeutas, terapeutas e outros profissionais que atendem com hora marcada.',
+    services: [
+      {
+        title: 'Consultório para área da saúde',
+        text: 'Atendimentos com privacidade, conforto, estacionamento e agenda flexível.',
+        image: officeImages.healthOffice,
+        imageAlt: 'Ambiente ilustrativo de consultório de saúde',
+        items: [
+          { label: 'Hora', value: 'R$ 99,90' },
+          { label: 'Período (4h)', value: 'R$ 249,90' },
+          {
+            label: 'Mensal com endereço fiscal',
+            value: 'R$ 1.398,90',
+            note: 'até 12 períodos mensais',
+          },
+        ],
+      },
+    ],
   },
   {
-    title: 'Trienal',
-    price: 'R$ 3.772,44',
-    detail: '36 meses • equivalente a R$ 104,79/mês',
-    discount: '30% de desconto',
-    popular: false,
+    tone: 'rust',
+    name: 'como rede de apoio.',
+    audience:
+      'Para empresas digitais, profissionais remotos e negócios que precisam de um endereço profissional.',
+    services: [
+      {
+        title: 'Endereço fiscal e comercial',
+        text: 'Mais credibilidade para o seu negócio: formalize a empresa e receba correspondências com segurança.',
+        items: fiscalPricing,
+        image: officeImages.fiscal,
+        imageAlt: 'Edifício comercial ilustrando uma presença profissional',
+      },
+    ],
+  },
+  {
+    tone: 'blue',
+    name: 'do tamanho da sua equipe.',
+    audience:
+      'Para empresas em expansão e operações que precisam de um espaço dedicado, montado sob medida.',
+    services: [
+      {
+        title: 'Escritórios sob demanda',
+        text: 'O escritório que se adapta ao seu negócio, com layout, estrutura e serviços definidos com a sua equipe.',
+        items: [{ label: 'Orçamento sob medida', value: 'Sob consulta' }],
+        image: officeImages.demandOffice,
+        imageAlt: 'Ambiente amplo de escritório sob demanda',
+      },
+    ],
   },
 ];
 
