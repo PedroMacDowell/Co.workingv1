@@ -28,7 +28,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build:gh-pages
+        run: npm run build
+        env:
+          DEPLOY_TARGET: pages
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

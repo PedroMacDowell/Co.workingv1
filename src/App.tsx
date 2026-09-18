@@ -51,7 +51,7 @@ function Header() {
   return (
     <header className="site-header" id="topo">
       <a className="brand" href="#topo" aria-label="4U Coworking">
-        <img src={`${import.meta.env.BASE_URL}assets/logo-4u.svg`} alt="4U Coworking" width={74} height={74} />
+        <img src="/assets/logo-4u.svg" alt="4U Coworking" width={74} height={74} />
         <span>
           <strong>4U</strong>
           <small>coworking</small>
@@ -325,9 +325,20 @@ function Testimonials() {
         <p className="companies-note">Marcas ilustrativas. A lista de empresas será atualizada em breve.</p>
         <div className="logo-viewport" aria-label="Exemplos ilustrativos de marcas">
           <div className="logo-track">
-            {trustedCompanies.map((company) => (
-              <div className={`client-logo ${company.tone}`} key={company.name}>
-                <span>{company.name}</span>
+            {[false, true].map((isDuplicate) => (
+              <div
+                className="logo-group"
+                aria-hidden={isDuplicate ? 'true' : undefined}
+                key={isDuplicate ? 'duplicate' : 'original'}
+              >
+                {trustedCompanies.map((company) => (
+                  <div
+                    className={`client-logo ${company.tone}`}
+                    key={`${isDuplicate ? 'duplicate' : 'original'}-${company.name}`}
+                  >
+                    <span>{company.name}</span>
+                  </div>
+                ))}
               </div>
             ))}
           </div>

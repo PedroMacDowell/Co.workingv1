@@ -4,7 +4,7 @@
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('./fonts/manrope-latin-variable.woff2') format('woff2');
+  src: url('/fonts/manrope-latin-variable.woff2') format('woff2');
 }
 
 @font-face {
@@ -12,7 +12,7 @@
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('./fonts/dm-sans-latin-variable.woff2') format('woff2');
+  src: url('/fonts/dm-sans-latin-variable.woff2') format('woff2');
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -27,7 +27,9 @@
   --ink:           #292923;
   --muted:         #68685f;
   --line:          #deded7;
-  --paper:         #f6f5ef;   /* fundo padrão original do site */
+  --paper:         #f6f5ef;
+  --paper-deep:    #efede5;
+  --paper-light:   #fbfaf7;
   --white:         #ffffff;
   --blue:          #29528f;
   --green:         #4f765e;
@@ -377,7 +379,7 @@ h3 {
 /* ═══════════════════════════════════════════════════════════════
    SERVICES — fundo branco, destaque dos ambientes
 ═══════════════════════════════════════════════════════════════ */
-.services { background: var(--white); }
+.services { background: var(--paper-light); }
 
 .service-grid {
   display: grid;
@@ -486,7 +488,7 @@ h3 {
 /* ═══════════════════════════════════════════════════════════════
    ADVANTAGES — fundo paper
 ═══════════════════════════════════════════════════════════════ */
-.advantages { background: var(--paper); }
+.advantages { background: var(--paper-deep); }
 
 .advantages-inner {
   padding-top: var(--section-v);
@@ -540,7 +542,7 @@ h3 {
 /* ═══════════════════════════════════════════════════════════════
    PROCESS — fundo branco
 ═══════════════════════════════════════════════════════════════ */
-.process { background: var(--white); }
+.process { background: var(--paper-light); }
 
 .process-grid {
   display: grid;
@@ -640,21 +642,38 @@ h3 {
   text-transform: uppercase;
 }
 
-.logo-viewport { overflow: hidden; }
+.logo-viewport {
+  --logo-gap: clamp(44px, 5vw, 72px);
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 0;
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
 
 .logo-track {
   display: flex;
   width: max-content;
-  gap: 60px;
+  gap: var(--logo-gap);
   align-items: center;
-  animation: logo-scroll 28s linear infinite;
+  animation: logo-scroll 26s linear infinite;
+  will-change: transform;
 }
 
-.logo-viewport:hover .logo-track { animation-play-state: paused; }
+.logo-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--logo-gap);
+}
+
+.logo-viewport:hover .logo-track,
+.logo-viewport:focus-within .logo-track { animation-play-state: paused; }
 
 @keyframes logo-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(calc(-50% - (var(--logo-gap) / 2))); }
 }
 
 .client-logo {
@@ -676,7 +695,7 @@ h3 {
 /* ═══════════════════════════════════════════════════════════════
    PRICING — fundo branco
 ═══════════════════════════════════════════════════════════════ */
-.pricing { background: var(--white); }
+.pricing { background: var(--paper-light); }
 
 .pricing .section-heading {
   display: block;
@@ -691,7 +710,7 @@ h3 {
 .pricing-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .pricing-card { display: flex; flex-direction: column; overflow: hidden; background: var(--black); color: white; border-radius: var(--radius); }
 .pricing-photo { width: 100%; height: 200px; object-fit: cover; }
-.pricing-details { display: flex; flex-direction: column; flex: 1; padding: 28px; border-top: 4px solid var(--orange); }
+.pricing-details { display: flex; flex-direction: column; flex: 1; padding: 28px; border-top: 1px solid var(--orange); }
 .pricing-card-header { display: block; margin-bottom: auto; }
 
 .pricing-card h3 {
@@ -892,7 +911,7 @@ h3 {
 /* ═══════════════════════════════════════════════════════════════
    LOCATION — fundo paper
 ═══════════════════════════════════════════════════════════════ */
-.location { background: var(--paper); }
+.location { background: var(--paper-deep); }
 
 .location-grid {
   display: grid;
@@ -970,7 +989,7 @@ h3 {
    CONTACT — fundo branco
 ═══════════════════════════════════════════════════════════════ */
 .contact {
-  background: var(--white);
+  background: var(--paper-light);
 }
 
 .contact-inner {
@@ -987,9 +1006,9 @@ h3 {
   gap: 4px;
   margin-top: 28px;
   padding: 18px 20px;
-  background: rgba(79,118,94,.08);
-  border-left: 4px solid var(--green);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
 }
 
 .contact-note strong { font-size: 0.96rem; }
@@ -1306,8 +1325,9 @@ h3 {
   .logo-track,
   .floating-whatsapp { animation: none; transition: none; }
 
-  .logo-track { width: auto; flex-wrap: wrap; justify-content: center; gap: 28px; }
-  .client-logo[aria-hidden="true"] { display: none; }
+  .logo-track { width: 100%; }
+  .logo-group { flex-wrap: wrap; justify-content: center; gap: 28px; }
+  .logo-group[aria-hidden="true"] { display: none; }
 }
 
 .quote-mark { color: var(--orange-dark) !important; font-size: 4rem !important; line-height: 1; }
@@ -1318,8 +1338,6 @@ h3 {
 .google-review-card p, .companies-note { color: var(--muted); }
 .companies-panel h3 { margin-bottom: 10px; }
 .companies-note { margin-bottom: 28px; font-size: .85rem; }
-.logo-track { animation: none; width: auto; flex-wrap: wrap; gap: 32px; justify-content: space-between; }
-.client-logo[aria-hidden="true"] { display: none; }
 .consultation-price { display: block; color: var(--orange); margin-bottom: 12px; }
 .form-fallback { color: var(--orange); text-decoration: underline; }
 .location-video { position: relative; }

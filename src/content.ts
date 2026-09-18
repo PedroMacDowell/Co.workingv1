@@ -42,7 +42,7 @@ export const navItems = [
 
 export const heroSlides = [
   {
-    image: `${import.meta.env.BASE_URL}assets/hero-coworking.png`,
+    image: '/assets/hero-coworking.png',
     alt: 'Interior moderno de coworking com salas privativas',
   },
   {
