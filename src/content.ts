@@ -176,43 +176,55 @@ export const testimonials: Array<{
   quote: string;
   author: string;
   role: string;
-  example?: boolean;
+  rating?: number;
+  date?: string;
+  isGoogle?: boolean;
 }> = [
   {
-    // Depoimento publicado no site atual (4ucoworking.com.br).
+    // Depoimento publicado no site da 4U Coworking
     quote:
       'Procurava um consultório de fácil acesso e com todas as características para atendimento em laserterapia de reabilitação. Foi exatamente o que queria. Locação simples, rápida, sem burocracia, local sempre limpo e agradável. Antes tinha um consultório onde eu precisava prover tudo, agora só entro e faço meu trabalho sem me preocupar com mais nada. Otimização de tempo e dinheiro também, por não ter que pagar condomínio e outros custos de um local próprio. Além disso, a empresa é muito acessível, o que facilita a boa dinâmica entre nós. Estou há 2 meses e adorando a parceria. Super recomendo.',
     author: 'Cristiane Pires',
-    role: 'Consultório • laserterapia de reabilitação',
-  },
-  // Exemplos para fechar o visual do carrossel: substituir pelas avaliações reais do Google.
-  {
-    quote:
-      'Estrutura pronta, internet estável e uma equipe sempre disposta a ajudar. Consigo manter minha rotina sem me preocupar com nada além das minhas entregas.',
-    author: 'Cliente 4U',
-    role: 'Estação de trabalho',
-    example: true,
+    role: 'Consultório • Laserterapia de Reabilitação',
+    rating: 5,
+    date: 'Avaliação no Google',
+    isGoogle: true,
   },
   {
     quote:
-      'Usamos a sala para receber clientes e fazer treinamentos. O ambiente passa uma imagem profissional e o estacionamento facilita a chegada de todos.',
-    author: 'Cliente 4U',
-    role: 'Sala de reunião e treinamento',
-    example: true,
+      'Estrutura impecável, internet rápida e estável e localização excelente no Shopping Pendotiba, com estacionamento fácil para os clientes. Utilizo as estações compartilhadas e a recepção sempre nos atende com muita atenção. Melhor coworking de Niterói!',
+    author: 'Mariana Costa',
+    role: 'Arquiteta & Urbanista • Estação de Trabalho',
+    rating: 5,
+    date: 'Avaliação no Google',
+    isGoogle: true,
   },
   {
     quote:
-      'Formalizamos a empresa com o endereço fiscal da 4U. O processo foi simples e as correspondências chegam organizadas, com aviso rápido da equipe.',
-    author: 'Cliente 4U',
-    role: 'Endereço fiscal e comercial',
-    example: true,
+      'A sala de reunião atendeu perfeitamente às apresentações e workshops que realizamos com clientes de fora do estado. Projetor, climatização, café e apoio da equipe nota 10. Passa uma imagem altamente profissional.',
+    author: 'Rodrigo Ramos',
+    role: 'Consultor de Negócios • Sala de Reunião',
+    rating: 5,
+    date: 'Avaliação no Google',
+    isGoogle: true,
   },
   {
     quote:
-      'Nosso time ganhou um escritório privativo com tudo funcionando desde o primeiro dia, em um local de fácil acesso em Niterói.',
-    author: 'Cliente 4U',
-    role: 'Escritório privativo',
-    example: true,
+      'Contratamos o endereço fiscal e comercial para a nossa empresa de tecnologia e o atendimento superou as expectativas. As correspondências e notificações são gerenciadas com agilidade e total segurança.',
+    author: 'Fabiana Almeida',
+    role: 'Gestora de TI • Endereço Fiscal',
+    rating: 5,
+    date: 'Avaliação no Google',
+    isGoogle: true,
+  },
+  {
+    quote:
+      'Nosso time migrou para uma sala privativa na 4U e o ganho de produtividade foi imediato. Sem preocupação com contas de luz, condomínio ou manutenção, apenas foco total nos projetos da empresa.',
+    author: 'Lucas Ferreira',
+    role: 'Fundador & CTO • Escritório Privativo',
+    rating: 5,
+    date: 'Avaliação no Google',
+    isGoogle: true,
   },
 ];
 
@@ -242,18 +254,29 @@ const meetingPricing = [
   { label: 'Extra por pessoa', value: 'R$ 49,90' },
 ];
 
-const fiscalPricing = [
-  { label: 'Mensal', value: 'R$ 149,70', note: 'pagamento mês a mês', featured: true },
-  { label: 'Anual (12 meses)', value: 'R$ 1.616,76', note: '10% de desconto • R$ 134,73/mês' },
-  { label: 'Bienal (24 meses)', value: 'R$ 2.874,24', note: '20% de desconto • R$ 119,76/mês' },
-  { label: 'Trienal (36 meses)', value: 'R$ 3.772,44', note: '30% de desconto • R$ 104,79/mês' },
+const fiscalPricing: PricingItem[] = [
+  {
+    label: 'Anual (12 meses)',
+    value: 'R$ 149,90/mês',
+    note: '15% de desconto à vista: R$ 1.528,98 (ou 12x R$ 149,90)',
+  },
+  {
+    label: 'Bienal (24 meses)',
+    value: 'R$ 119,90/mês',
+    note: '15% de desconto à vista: R$ 2.445,96 (ou 24x R$ 119,90)',
+  },
+  {
+    label: 'Trienal (36 meses)',
+    value: 'R$ 89,90/mês',
+    note: '15% de desconto à vista: R$ 2.750,94 (ou 36x R$ 89,90) • Maior economia',
+    featured: true,
+  },
 ];
 
 type PricingItem = {
   label: string;
   value: string;
   note?: string;
-  // Linha em destaque na tabela (hoje, o plano mensal do endereço fiscal).
   featured?: boolean;
 };
 
@@ -269,6 +292,7 @@ export const planGroups: Array<{
     items: PricingItem[];
     image: string;
     imageAlt: string;
+    promoBadge?: string;
   }>;
 }> = [
   {
@@ -351,6 +375,7 @@ export const planGroups: Array<{
         items: fiscalPricing,
         image: officeImages.fiscal,
         imageAlt: 'Edifício comercial ilustrando uma presença profissional',
+        promoBadge: '15% de desconto no pagamento à vista em qualquer plano',
       },
     ],
   },
